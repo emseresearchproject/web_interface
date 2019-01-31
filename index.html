@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bayesian MNIST</title>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/regular.css" integrity="sha384-aubIA90W7NxJ+Ly4QHAqo1JBSwQ0jejV75iHhj59KRwVjLVHjuhS3LkDAoa/ltO4" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="css/app.css">
+        <link rel="shortcut icon" href="img/logo.png">
+        <link href="https://fonts.googleapis.com/css?family=Baloo+Thambi" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">
+              <i class="fas fa-code-branch" width="50"></i>
+              Bayesian MNIST
+            </a>
+
+        </nav>
+        <div class="container">
+                <br>
+                <div id="app">
+                  <div class="row align-items-center">
+                    <div class="col-md-1"></div>
+                    <div class="col-12 col-md-10">
+                      <h1>Introduction</h1>
+                      <p> The aim of this online application is to make you feel the importance uncertainty using the famous
+                        <a href="http://yann.lecun.com/exdb/mnist/">MNIST dataset</a>.
+                      </p>
+                      <h1>Models</h1>
+                      <div v-for="model in models">
+                        <p>
+                          <strong>{{ model.name }} : </strong> {{ model.description }}
+                        </p>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="row align-items-center">
+                    <div class="col-md-1"></div>
+                    <div class="col-12 col-md-10">
+                      <br>
+                      <strong>Model selection :</strong>
+                      <div class="input-group mb-3">
+                        <select class="custom-select" v-model="model" id="inputGroupSelect02">
+                          <option v-for="model_item in models" :value="model_item">{{ model_item.name }}</option>
+                        </select>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+
+                  <div class="row align-items-center">
+                    <div class="col-md-1"></div>
+                    <div class="col-12 col-md-10">
+                      <h1>Experiment {{ model.name }}</h1>
+                    </div>
+                  </div>
+                  <div class="row align-items-center">
+                    <div class="col-md-1"></div>
+                    <div class="col-12 col-md-3">
+                        <img id="output" :src="image" width="100%">
+                        <label class="main_button" id="#bb" style="width: 100%; text-align: center" v-on:click="randomize">
+                          Upload Image
+                          <input type="file" style="display: none;" @change="load">
+                        </label>
+                    </div>
+
+                    <div class="col-md-2"></div>
+                    <div class="col-12 col-md-4">
+                      <div v-for="class_item in classes" class="row align-items-center">
+                        <div class="col-1">
+                        <strong> {{ class_item.name }} </strong>
+                        </div>
+                        <div class="col-1"></div>
+                        <div class="col-10">
+                          <div class="progress">
+                            <div v-if="class_item.value > 50" class="progress-bar" role="progressbar" :style="'width: ' + class_item.value + '%;'" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">{{ class_item.value }}%</div>
+                            <div v-if="class_item.value <= 50 && class_item.value > 20" class="progress-bar bg-success" role="progressbar" :style="'width: ' + class_item.value + '%;'" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">{{ class_item.value }}%</div>
+                            <div v-if="class_item.value <= 20" class="progress-bar bg-danger" role="progressbar" :style="'width: ' + class_item.value + '%;'" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">{{ class_item.value }}%</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                    <div class="row align-items-center">
+                        <div class="col-md-1"></div>
+                        <div class="col-12 col-md-10">
+
+                            <h1>
+                                Contact
+                            </h1>
+                                You can join me :
+                                <ul>
+                                    <li>By email : <a href="mailto:robin.camarasa@gmail.com">robin.camarasa@gmail.com</a></li>
+                                    <li>By phone : <a href="tel:+33630662972">+33 6 30 66 29 72</a></li>
+                                </ul>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+            <hr>
+            <footer class="text-center center-block">
+                <strong class="footer">© 2018 Copyright :</strong> Bayesian MNIST
+                <br>
+                <a href="https://www.facebook.com/robin.camarasa"><i id="social-fb" class="fab fa-facebook-square social fa-3x"></i></a>
+                <a href="https://twitter.com/CamarasaRobin"><i id="social-tw" class="fab fa-twitter-square fa-3x social"></i></a>
+                <a href="https://github.com/RobinCamarasa"><i id="social-gh" class="fab fa-github-square fa-3x social"></i></a>
+                <a href="mailto:robin.camarasa@gmail.com"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a>
+            </footer>
+            <br>
+        </div>
+
+        <script src="jquery/dist/jquery.js"></script>
+        <script src="bootstrap/dist/js/bootstrap.js"></script>
+        <script src="vue/dist/vue.js"></script>
+        <script src="js/app.js"></script>
+
+    </body>
+</html>
